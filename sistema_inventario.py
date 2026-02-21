@@ -23,12 +23,23 @@ class Producto:
         return f"nombre: {self.nombre} - precio: {self.precio} - cantidad: {self.cantidad}"
 
     def actualizar_precio(self, nuevo_precio):
-        if self.check_non_negative(nuevo_precio):
+        try:
+            if not nuevo_precio or not isinstance(nuevo_precio, (int, float)) or not self.check_non_negative(
+                    nuevo_precio):
+                raise ValueError('El precio no puede ser menor que 0')
             self.precio = nuevo_precio
+        except ValueError as e:
+            print(f"Error actualizando el precio de {self.nombre}: {e}")
+            raise
 
     def actualizar_cantidad(self, nueva_cantidad):
-        if self.check_non_negative(nueva_cantidad):
+        try:
+            if not nueva_cantidad or not isinstance(nueva_cantidad, int) or not self.check_non_negative(nueva_cantidad):
+                raise ValueError('La cantidad no puede ser menor que 0')
             self.cantidad = nueva_cantidad
+        except ValueError as e:
+            print(f"Error actualizando la cantidad de: {self.nombre}: {e}")
+            raise
 
     def calcular_valor_total(self):
         return self.precio * self.cantidad
