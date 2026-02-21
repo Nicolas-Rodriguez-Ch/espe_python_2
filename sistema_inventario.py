@@ -73,11 +73,58 @@ class Inventario:
             print(producto.__str__())
 
 
-mangos = Producto('mango', 1, 4)
-limon = Producto('limon', 1, 10)
-inventario = Inventario()
-inventario.agregar_producto(mangos)
-inventario.agregar_producto(limon)
-inventario.listar_productos()
-inventario.buscar_producto('tomate')
-print(inventario.calcular_valor_inventario())
+def menu_principal():
+    inventario = Inventario()
+
+    while True:
+        print("\n===== MENU PRINCIPAL =====")
+        print("1. Agregar producto")
+        print("2. Buscar producto")
+        print("3. Listar productos")
+        print("4. Calcular valor total del inventario")
+        print("5. Salir")
+        print("==========================")
+
+        opcion = input("Seleccione una opción (1-5): ").strip()
+
+        if opcion == '1':
+            try:
+                nombre = input("Nombre del producto: ").strip()
+                precio = float(input("Precio del producto: "))
+                cantidad = int(input("Cantidad del producto: "))
+                producto = Producto(nombre, precio, cantidad)
+                inventario.agregar_producto(producto)
+                print(f"Producto '{nombre}' agregado exitosamente.")
+            except ValueError as e:
+                print(f"Error al agregar producto: {e}")
+            except Exception as e:
+                print(f"Error inesperado: {e}")
+
+        elif opcion == '2':
+            nombre = input("Ingrese el nombre del producto a buscar: ").strip()
+            producto = inventario.buscar_producto(nombre)
+            if producto:
+                print(f"Producto encontrado: {producto}")
+
+        elif opcion == '3':
+            print("\n===== PRODUCTOS EN INVENTARIO =====")
+            if inventario.productos:
+                inventario.listar_productos()
+            else:
+                print("El inventario está vacío.")
+            print("====================================")
+
+        elif opcion == '4':
+            valor_total = inventario.calcular_valor_inventario()
+            print(f"\nValor total del inventario: ${valor_total:.2f}")
+
+        elif opcion == '5':
+            print("¡Hasta luego!")
+            break
+
+        else:
+            print("Opción inválida. Por favor, seleccione una opción válida (1-5).")
+
+
+if __name__ == "__main__":
+    menu_principal()
